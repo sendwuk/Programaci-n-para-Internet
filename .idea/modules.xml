@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/Trabajo 03 Javascrip.iml" filepath="$PROJECT_DIR$/.idea/Trabajo 03 Javascrip.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/Programaci-n-para-Internet.iml" filepath="$PROJECT_DIR$/.idea/Programaci-n-para-Internet.iml" />
->>>>>>> origin/master
     </modules>
   </component>
 </project>
