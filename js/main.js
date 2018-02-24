@@ -2,60 +2,60 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'area', { preload: preload, cr
 var platforms;
 var player;
 var cursor;
-var stars;
+var paletas;
 var score = 0;
 var scoreText;
 
 
 function preload() {
 
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('ground', 'assets/platform.png');
-    game.load.image('star', 'assets/star.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.image('fondo', 'assets/ladscape.png');
+    game.load.image('paleta', 'assets/lolipop.png');
+    game.load.image('piso', 'assets/platform.png');
+    game.load.spritesheet('jugador','assets/personaje.png', 32.74, 48);
+
 
 
 }
 
 
 function create() {
-
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.add.sprite(0,0,'sky');
+    game.physics.paletatSystem(Phaser.Physics.ARCADE);
+    game.add.sprite(0,0,'fondo');
     platforms=game.add.group();
     platforms.enableBody=true;
-    var ground=platforms.create(0,game.world.height-64,'ground');
-    ground.scale.setTo(2,2);
-    ground.body.immovable=true;
-    var ledge= platforms.create(400,400,'ground');
+    var piso=platforms.create(0,game.world.height-64,'piso');
+    piso.scale.setTo(2,2);
+    piso.body.immovable=true;
+    var ledge= platforms.create(400,400,'piso');
     ledge.body.immovable=true;
-    ledge=platforms.create(-150,250,'ground');
+    ledge=platforms.create(-150,250,'piso');
     ledge.body.immovable=true;
-     player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'jugador');
     game.physics.arcade.enable(player);
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.bounce.y = 0.0;
+    player.body.gravity.y = 400;
     player.body.collideWorldBounds = true;
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     cursors = game.input.keyboard.createCursorKeys();
-    //  Finally some stars to collect
-    stars = game.add.group();
+    //  Finally some paletas to collect
+    paletas = game.add.group();
 
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
+    //  We will enable physics for any paleta that is created in this group
+    paletas.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 12; i++)
     {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        //  Create a paleta inside of the 'paletas' group
+        var paleta = paletas.create(i * 70, 0, 'paleta');
 
         //  Let gravity do its thing
-        star.body.gravity.y = 300;
+        paleta.body.gravity.y = 300;
 
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        //  This just gives each paleta a slightly random bounce value
+        paleta.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -63,49 +63,7 @@ function create() {
 }
 
 function update() {
-    game.physics.arcade.collide(player, platforms);
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
-        //  Move to the left
-        player.body.velocity.x = -150;
-
-        player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-        //  Move to the right
-        player.body.velocity.x = 150;
-
-        player.animations.play('right');
-    }
-    else
-    {
-        //  Stand still
-        player.animations.stop();
-
-        player.frame = 4;
-    }
-
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.body.velocity.y = -350;
-    }
-
-    game.physics.arcade.collide(stars, platforms);
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
 }
 
-function collectStar (player, star) {
 
-    // Removes the star from the screen
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-    star.kill();
-
-}
 
